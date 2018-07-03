@@ -1,0 +1,37 @@
+function onOpen() {
+  // Add Menu Item in Spreadsheet
+  SpreadsheetApp.getUi().createMenu("South Pole Function")
+  .addItem("List all consultancies folder", "listFiles")
+  .addToUi()
+}
+
+function listFiles() {
+  var ss = SpreadsheetApp.getActive();
+
+  // In which folder is this file?
+  var ssId = ss.getId();
+  var thisfile = DriveApp.getFileById(ssId);
+  var fold = thisfile.getParents();
+  if (fold.hasNext())
+    var folder = fold.next();
+
+  // Initialize the sheet
+  var sheet = ss.getActiveSheet();
+  sheet.clear()
+  
+  // Insert Header
+  sheet.appendRow(["FolderName","FolderID", "Url", "DateCreated", "LastUpdated"]);
+
+  // Populate the sheet with Names, Id, end other attributes
+  var folders = folder.getFolders();
+  while (folders.hasNext()) {
+    var folder = folders.next();
+    sheet.appendRow([
+      folder.getName(),
+      folder.getId(),
+      folder.getUrl(),
+      folder.getDateCreated(),
+      folder.getLastUpdated(),
+    ]);
+  }
+}
