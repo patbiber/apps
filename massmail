@@ -1,0 +1,114 @@
+function myFunction() {
+  //oritinal version
+
+function copyFile(originFileId, copyTitle) {
+  var body = {'title': copyTitle};
+  var request = gapi.client.drive.files.copy({
+    'fileId': originFileId,
+    'resource': body
+  });
+  request.execute(function(resp) {
+  });
+} 
+
+
+  
+  var spreadsheet=SpreadsheetApp.openById("1fQBp_Qt1qxxxxxxxxxxxxxxxxxxx");
+  var sheet=spreadsheet.getSheetByName("data");
+  
+  var startRow = 7;                            // First row of data to process XXX
+  var numRows = sheet.getLastRow() - startRow +1;        // Number of rows to process
+  var lastColumn = sheet.getLastColumn();      // Last column
+
+  var data=sheet.getRange(startRow, 1, numRows, lastColumn).getValues();
+  
+  var body = DocumentApp.getActiveDocument().getBody();
+
+  
+    
+  for (var i = 0; i < data.length; ++i) {
+    var row = data[i]; 
+
+    var draftMe =data[0];
+    
+          //Logger.log(companyName);
+
+
+var companyName = row[5];
+var contactPerson = row[6];
+var streetName = row[7];
+var placeName = row[8];
+var dateApplication = row[11];
+var datumZusicherung = row[12];
+var laufzeitYears = row[13];
+var laufzeitWords = row[14];
+var dateFrist = row[15];
+var guaranteeSize = row[19];
+var guaranteeWords = row[20];
+var ownPercent = row[21];
+var sizeOwnmeans = row[22];
+var sizeTrancheone = row[25];
+var sizeTranchetwo = row[26];
+var milestoneSentence = row[27];
+var deadlineMilestone = row[28];
+var milestoneSentence2 = row[29];
+var productBereich = row[37];
+var productDoes = row[38];
+var guaranteeZweck = row[39];
+var impactArea = row[40];
+var vorhabenDescription = row[41];
+var marktchancenDescription = row[42];
+var kreditwurdigkeitMittel = row[43];
+var guaranteePreviousnumber = row[45];
+var previousBank = row[46];
+var datePreviousguarantee = row[47];
+
+var sizePrevious = row[48];
+var laufzeitPrevious = row[49];
+
+    if(draftMe){
+      
+      var title = "Entwurf_Zusicherung_" & companyName & datumZusicherung & "_(V_2019_02_15_DE)";
+        doc = DocumentApp.create(title);
+      
+body.replaceText('{companyName}',companyName);
+body.replaceText('{contactPerson}',contactPerson);
+body.replaceText('{streetName}',streetName);
+body.replaceText('{placeName}',placeName);
+body.replaceText('{dateApplication}',dateApplication);
+body.replaceText('{datumZusicherung}',datumZusicherung);
+body.replaceText('{laufzeitYears}',laufzeitYears);
+body.replaceText('{laufzeitWords}',laufzeitWords);
+body.replaceText('{dateFrist}',dateFrist);
+body.replaceText('{guaranteeSize}',guaranteeSize);
+body.replaceText('{guaranteeWords}',guaranteeWords);
+body.replaceText('{ownPercent}',ownPercent);
+body.replaceText('{sizeOwnmeans}',sizeOwnmeans);
+body.replaceText('{sizeTrancheone}',sizeTrancheone);
+body.replaceText('{sizeTranchetwo}',sizeTranchetwo);
+body.replaceText('{milestoneSentence}',milestoneSentence);
+body.replaceText('{deadlineMilestone}',deadlineMilestone);
+body.replaceText('{milestoneSentence2}',milestoneSentence2);
+body.replaceText('{productBereich}',productBereich);
+body.replaceText('{productDoes}',productDoes);
+body.replaceText('{guaranteeZweck}',guaranteeZweck);
+body.replaceText('{impactArea}',impactArea);
+body.replaceText('{vorhabenDescription}',vorhabenDescription);
+body.replaceText('{marktchancenDescription}',marktchancenDescription);
+body.replaceText('{kreditwurdigkeitMittel}',kreditwurdigkeitMittel);
+body.replaceText('{guaranteePreviousnumber}',guaranteePreviousnumber);
+body.replaceText('{previousBank}',previousBank);
+body.replaceText('{datePreviousguarantee}',datePreviousguarantee);
+body.replaceText('{sizePrevious}',sizePrevious);
+body.replaceText('{laufzeitPrevious}',laufzeitPrevious);
+
+
+    
+    }
+  
+    
+  }
+
+  //var doc = DocumentApp.create('Document Name');
+  
+}
