@@ -1,0 +1,15 @@
+function autoReply() {
+  var interval = 1;          //  if the script runs every minute
+  var daysOff = [4];   // 0=Mo, 1=Tu, 2=We, 3=Th, 4=Fr, 5=Sa, 6=Su
+  var daysOffMessage = "Dear Sender, \n\ \n\Thank you for your message. I am out of office until Monday and will get back to you early next week. In urgent cases please call my cell phone (+41 76 410 1585) or send me a text or WhatsApp. \n\ Please feel free to schedule a call/meeting in my calendar -- see my signature.\n\ \n\Thank you for your understanding. \n\ \n\Best, \n\ \n\Urs Dieterich";
+  var date = new Date();
+  var day = date.getDay();
+  var hour = date.getHours();
+  if (daysOff.indexOf(day) > -1 || (day == 3 && hour >= 12)) {
+    var timeFrom = Math.floor(date.valueOf()/1000) - 60 * interval;
+    var threads = GmailApp.search('is:inbox after:' + timeFrom);
+    for (var i = 0; i < threads.length; i++) {
+      threads[i].reply(daysOffMessage);
+    }
+  }
+}
