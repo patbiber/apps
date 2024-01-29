@@ -1,0 +1,60 @@
+function onOpen() {
+  // Add Menu Item in Spreadsheet
+  SpreadsheetApp.getUi().createMenu("South Pole Tools")
+    .addItem("Create Index", "listFiles")
+    .addToUi();
+}
+
+function listFiles() {
+  var ss = SpreadsheetApp.getActive();
+
+  // Get the folder in which this file is located
+  var ssId = ss.getId();
+  var thisFile = DriveApp.getFileById(ssId);
+  var parentFolder = thisFile.getParents();
+  if (!parentFolder.hasNext()) {
+    return;
+  }
+  var folder = parentFolder.next();
+
+  // Initialize the sheet
+  var sheet = ss.getActiveSheet();
+  sheet.clear();
+
+  // Insert Header
+  sheet.appendRow(["Type", "Name", "URL", "Full Path"]);
+
+  // Start the recursive file and folder listing
+  listFolderContents(folder, sheet, "", "");
+}
+
+function listFolderContents(folder, sheet, path) {
+  var currentPath = path + folder.getName() + "/";
+
+  // List files in the folder
+  var files = folder.getFiles();
+  while (files.hasNext()) {
+    var file = files.next();
+    sheet.appendRow([
+      "File",
+      file.getName(),
+      file.getUrl(),
+      currentPath
+    ]);
+  }
+
+  // List and process subfolders
+  var subfolders = folder.getFolders();
+  while (subfolders.hasNext()) {
+    var subfolder = subfolders.next();
+    sheet.appendRow([
+      "Folder",
+      subfolder.getName(),
+      subfolder.getUrl(),
+      currentPath
+    ]);
+
+    // Recursive call for each subfolder
+    listFolderContents(subfolder, sheet, currentPath);
+  }
+}
